@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客列表</title>
+    <link rel="stylesheet" href="css/conmmon.css">
+    <link rel="stylesheet" href="css/blog_list.css">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/logo2.jpg" alt="">
+        <span class="title">我的博客系统</span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">主页</a>
+        <a href="blog_edit.html">写博客</a>
+        <a href="javascript:onExit()">退出登陆</a>
+
+        <script src="js/jquery.min.js"></script>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="container">
+        <!-- 左侧个人信息 -->
+        <div class="container-left">
+            <div class="card">
+                <img src="img/doge.jpg" class="avtar" alt="">
+                <h3 id="username"></h3>
+                <a href="http:www.github.com">github 地址</a>
+                <div class="counter">
+                    <span>文章</span>
+                    <span>分类</span>
+                </div>
+                <div class="counter">
+                    <span>2</span>
+                    <span>1</span>
+                </div>
+            </div>
+        </div>
+        <!-- 右侧内容详情 -->
+        <div class="container-right" id="artlistDiv">
+            <!-- 每一篇博客包含标题, 摘要, 时间 -->
+            
+        </div>
+    </div>
+</body>
+<script>
+
+
+        function mySubstr(content){
+            if(content.length > 40){
+                return content.substr(0,40);
+            }
+            return content;
+        }
+
+    function initMyList(){
+        jQuery.ajax({
+                url:"/art/mylist",
+                type:"GET",
+                data:"",
+                success:function(result){
+                    if(result.code == 200 && result.data != null && result.data.length > 0){
+                         //此人发表了文章
+                         console.log(result);
+                         var html = "";
+                        result.data.forEach(function(item){
+                            html+= '<div class="blog">'+
+                                '<div class="title">'+item.title+'</div>'+
+                                '<div class="date">'+item.createtime+'</div>'+'<div class="desc">'+
+                                    mySubstr(item.content)+' </div>'+
+                                    '<div style="text-align: center;margin-top: 50px;">'+
+                                    '<a href="blog_content.html?id='+item.id+'">查看详情</a>&nbsp;&nbsp;'+
+                                    '<a href="blog_update.html?id='+item.id+
+                                    '">修改</a>&nbsp;&nbsp;<a href="javascript:myDel('+item.id
+                                    +')">删除</a></div>'
+                                    +'</div>';
+                        });
+                        jQuery("#artlistDiv").html(html);
+                    }else{
+                        //此人未发表任何文章
+                        jQuery("#artlistDiv").html("<h1>暂无数据</h1>");
+                    }
+                },
+                
+            });
+    }
+
+    function initMyInfo(){
+        jQuery.ajax({
+                url:"/user/myinfo",
+                type:"GET",
+                data:"",
+                success:function(result){
+                    if(result.code == 200 && result.data != null){
+                        jQuery("#username").text(result.data.username);
+                    } 
+                },
+                error:function(){
+                    
+                }
+            });
+    }
+
+    initMyInfo();
+
+    initMyList();
+
+    function onExit(){
+        if(confirm("确认退出?")){
+            jQuery.ajax({
+                url:"/user/logout",
+                type:"POST",
+                data:"",
+                success:function(){
+                    alert("退出成功!");
+                    location.href = "/login.html";
+                },
+                error:function(err){
+                    if(err!=null && err.status== 401){
+                        alert("用户未登录,即将跳转到登录页!");
+                        location.href = "/login.html";
+                    }
+                }
+            });
+        }
+    }
+</script>
+</html>
