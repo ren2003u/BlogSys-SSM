@@ -17,52 +17,52 @@
 </head>
 
 <body>
-    <!-- 导航栏 -->
-    <div class="nav">
-        <img src="img/logo2.jpg" alt="">
-        <span class="title">我的博客系统</span>
-        <!-- 用来占据中间位置 -->
-        <span class="spacer"></span>
-        <a href="blog_list.html">主页</a>
-        <a href="blog_edit.html">写博客</a>
-        <a href="login.html">登陆</a>
-    </div>
-    <!-- 版心 -->
-    <div class="container">
-        <!-- 左侧个人信息 -->
-        <div class="container-left">
-            <div class="card">
-                <img src="img/doge.jpg" class="avtar" alt="">
-                <h3 id="username"></h3>
-                <a href="http:www.github.com">github 地址</a>
-                <div class="counter">
-                    <span>文章</span>
-                    <span>分类</span>
-                </div>
-                <div class="counter">
-                    <span>2</span>
-                    <span>1</span>
-                </div>
+<!-- 导航栏 -->
+<div class="nav">
+    <img src="img/logo2.jpg" alt="">
+    <span class="title">我的博客系统</span>
+    <!-- 用来占据中间位置 -->
+    <span class="spacer"></span>
+    <a href="blog_list.html">主页</a>
+    <a href="blog_edit.html">写博客</a>
+    <a href="login.html">登录</a>
+</div>
+<!-- 版心 -->
+<div class="container">
+    <!-- 左侧个人信息 -->
+    <div class="container-left">
+        <div class="card">
+            <img src="img/doge.jpg" class="avtar" alt="">
+            <h3 id="username">比特小可爱</h3>
+            <a href="http:www.github.com">github 地址</a>
+            <div class="counter">
+                <span>文章</span>
+                <span>分类</span>
+            </div>
+            <div class="counter">
+                <span>2</span>
+                <span>1</span>
             </div>
         </div>
-        <!-- 右侧内容详情 -->
-        <div class="container-right">
-            <div class="blog-content">
-                <!-- 博客标题 -->
-                <h3 id="title"></h3>
-                <!-- 博客时间 -->
-                <div class="date">
-                        <span id="data"></span> &nbsp;&nbsp;&nbsp;&nbsp;
-                        访问量: <span id="rcount"></span>
-                </div>
-                <!-- 博客正文 -->
-                <div id="editorDiv">
+    </div>
+    <!-- 右侧内容详情 -->
+    <div class="container-right">
+        <div class="blog-content">
+            <!-- 博客标题 -->
+            <h3 id="title"></h3>
+            <!-- 博客时间 -->
+            <div  class="date">
+                <span id="data"></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                访问量：<span id="rcount"></span>
+            </div>
+            <!-- 博客正文 -->
+            <div id="editorDiv">
 
-                </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
+</div>
+<script type="text/javascript">
             var editormd;
             function initEdit(md){
                 editormd = editormd.markdownToHTML("editorDiv", {
@@ -71,12 +71,13 @@
                 // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
                 });
             }
-            
+
+            // 获取个人信息
             function myInfo(uid){
                 // todo:后端添加 /user/myinfobyuid 通过用户 id 查询用户对象
                 jQuery.ajax({
                         url:"/user/myinfobyuid",
-                        type:"GET",
+                        type:"POST",
                         data:{"uid":uid},
                         success:function(result){
                             if(result.code==200 && result.data!=null){
@@ -84,20 +85,23 @@
                             }
                         },
                         error:function(err){
-                            
+
                         }
                     });
             }
 
+            // 获取文章的详情信息
             function getArtDetail(){
+                // 从 url 中获取到文章id
                 var aid = getURLParam("id");
                 if(aid!=null && aid>0){
+                    // 访问后端查询文章详情
                     jQuery.ajax({
                         url:"/art/detail",
-                        type:"GET",
+                        type:"POST",
                         data:{"aid":aid},
                         success:function(result){
-                            if(result.code == 200 && result.data!=null){
+                            if(result.code==200 && result.data!=null){
                                 var art = result.data;
                                 jQuery("#title").text(art.title);
                                 jQuery("#data").text(art.createtime);
@@ -107,12 +111,12 @@
                                 });
                                 myInfo(art.uid);
                             }
-                        },
+                        }
                     });
                 }
             }
             getArtDetail();
-    </script> 
+    </script>
 </body>
 
 </html>

@@ -20,4 +20,9 @@
     <select id="getTotalCount" resultType="java.lang.Integer">
         select count(*) from articleinfo
     </select>
+
+    <insert id="add">
+        INSERT INTO articleinfo (uid,title, content)
+        VALUES (#{uid}, #{title}, #{content})
+    </insert>
 </mapper>

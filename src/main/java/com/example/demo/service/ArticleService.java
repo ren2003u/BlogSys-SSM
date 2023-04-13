@@ -32,4 +32,7 @@ public class ArticleService {
     public int getTotalCount(){
         return articleMapper.getTotalCount();
     }
+    public int add(Integer uid,String title,String content){
+        return articleMapper.add(uid,title,content);
+    }
 }

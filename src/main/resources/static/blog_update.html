@@ -19,30 +19,30 @@
 </head>
 
 <body>
-    <!-- 导航栏 -->
-    <div class="nav">
-        <img src="img/logo2.jpg" alt="">
-        <span class="title">我的博客系统</span>
-        <!-- 用来占据中间位置 -->
-        <span class="spacer"></span>
-        <a href="blog_list.html">主页</a>
-        <a href="blog_edit.html">写博客</a>
-        <a href="#">注销</a> 
+<!-- 导航栏 -->
+<div class="nav">
+    <img src="img/logo2.jpg" alt="">
+    <span class="title">我的博客系统</span>
+    <!-- 用来占据中间位置 -->
+    <span class="spacer"></span>
+    <a href="blog_list.html">主页</a>
+    <a href="blog_edit.html">写博客</a>
+    <a href="#">注销</a>
+</div>
+<!-- 编辑框容器 -->
+<div class="blog-edit-container">
+    <!-- 标题编辑区 -->
+    <div class="title">
+        <input id="title" type="text" placeholder="在这里写下文章标题">
+        <button onclick="mysub()">修改文章</button>
     </div>
-    <!-- 编辑框容器 -->
-    <div class="blog-edit-container">
-        <!-- 标题编辑区 -->
-        <div class="title">
-            <input id="title" type="text" placeholder="在这里写下文章标题">
-            <button onclick="mysub()">修改文章</button>
-        </div>
-        <!-- 创建编辑器标签 -->
-        <div id="editorDiv">
-            <textarea id="editor-markdown" style="display:none;"></textarea>
-        </div>
+    <!-- 创建编辑器标签 -->
+    <div id="editorDiv">
+        <textarea id="editor-markdown" style="display:none;"></textarea>
     </div>
+</div>
 
-    <script>
+<script>
         var aid;
         var editor;
         function initEdit(md){
@@ -71,7 +71,7 @@
                 return false;
             }
             if(content==""){
-                title.focus();
+                content.focus();
                 alert("请先输入正文！");
                 return false;
             }

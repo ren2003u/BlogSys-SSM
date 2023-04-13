@@ -29,7 +29,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
         add("/art/list");
         add("/art/totalpage");
     }};
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration registration = registry.addInterceptor(loginInterceptor);

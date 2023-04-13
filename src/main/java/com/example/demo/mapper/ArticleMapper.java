@@ -21,4 +21,7 @@ public interface ArticleMapper {
                       @Param("content") String content);
 
     public int getTotalCount();
+
+    public int add(@Param("uid") Integer uid,@Param("title") String title,
+                   @Param("content") String content);
 }

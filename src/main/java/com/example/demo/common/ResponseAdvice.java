@@ -14,8 +14,6 @@ import java.util.HashMap;
 
 @ControllerAdvice
 public class ResponseAdvice implements ResponseBodyAdvice {
-
-
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
         return true;
@@ -23,17 +21,16 @@ public class ResponseAdvice implements ResponseBodyAdvice {
 
     @SneakyThrows
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+                                  Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
         if(body instanceof HashMap){
             return body;
         }
-
         if(body instanceof String){
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(AjaxResult.success(body));
         }
-
         return AjaxResult.success(body);
     }
 }

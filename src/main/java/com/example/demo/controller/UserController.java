@@ -23,6 +23,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/reg")
+
     public Object reg(String username,String password){
 
 

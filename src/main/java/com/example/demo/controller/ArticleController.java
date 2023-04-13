@@ -83,4 +83,14 @@ public class ArticleController {
         return null;
     }
 
+    @RequestMapping("/add")
+    public int add(String title,String content,HttpServletRequest request){
+        //todo:非空校验
+        System.out.println(title);
+        UserInfo userInfo = SessionUtil.getLoginUser(request);
+        if(userInfo!= null && userInfo.getId()>0){
+            return articleService.add(userInfo.getId(),title,content);
+        }
+        return 0;
+    }
 }
